@@ -61,7 +61,7 @@ const Main = () => {
       }
     } else {
       if (text.length > 0) {
-        Actions.getAutoComplete(text).then((res) => {
+        dispatch(Actions.getAutoComplete()).then((res) => {
           if (res.Code) {
             dispatch(Actions.setError(res.Message));
           } else {
@@ -98,7 +98,7 @@ const Main = () => {
 
   const selectCity = (key, city) => {
     setIsFavorite(false);
-    if (favorites) {
+    if (favorites.length > 0) {
       favorites.forEach((item, i) => {
         if (item.locationKey === key) {
           setIsFavorite(true);
@@ -221,7 +221,7 @@ export const ModalBox = styled.View`
   border-radius: 7px;
   display: flex;
   padding: 10px;
-  /* elevation: 10; */
+  elevation: 10;
 `;
 
 export const ModalView = styled.View`

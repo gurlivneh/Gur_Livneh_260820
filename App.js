@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import Main from './src/screens/Main';
 import Favorites from './src/screens/Favorites';
 import NavBar from './src/components/NavBar';

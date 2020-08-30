@@ -1,7 +1,7 @@
 import * as Requests from '../services/Requests';
 import * as MockData from '../mockData/mockData';
 import AsyncStorage from '@react-native-community/async-storage';
-const isMock = false;
+const isMock = true;
 
 export const page = (page) => {
   return {
@@ -109,10 +109,11 @@ export const removeFavorite = (favorite) => {
 };
 
 export const getAutoComplete = (text) => {
+  return (dispatch, getState) => {
     return new Promise((resolve) => {
       Requests.getAutoSearch(text).then((res) => {
         resolve(res);
       });
     });
-  
+  };
 };

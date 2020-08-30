@@ -1,9 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-} from 'react-native';
+import {SafeAreaView, ScrollView, Text} from 'react-native';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from '../state/actions';
@@ -26,33 +22,35 @@ const Favorites = (props) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <MainView>
-          {favorites && (
-            <WeatherRow>
-              {favorites.map((item, i) => {
-                return (
-                  <FavoriteBox
-                    key={i}
-                    onPress={() => {
-                      selectCity(item.locationKey, item.city);
-                      props.handleNav('Home');
-                    }}>
-                    <Text>{item.city}</Text>
-                    <Text>{item.currentWeather.WeatherText}</Text>
-                    <Text>
-                      {item.currentWeather.Temperature.Imperial.Value +
-                        item.currentWeather.Temperature.Imperial.Unit}
-                    </Text>
-                  </FavoriteBox>
-                );
-              })}
-            </WeatherRow>
-          )}
-        </MainView>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView>
+        <ScrollView>
+          <MainView>
+            {favorites && (
+              <WeatherRow>
+                {favorites.map((item, i) => {
+                  return (
+                    <FavoriteBox
+                      key={i}
+                      onPress={() => {
+                        selectCity(item.locationKey, item.city);
+                        props.handleNav('Home');
+                      }}>
+                      <Text>{item.city}</Text>
+                      <Text>{item.currentWeather.WeatherText}</Text>
+                      <Text>
+                        {item.currentWeather.Temperature.Imperial.Value +
+                          item.currentWeather.Temperature.Imperial.Unit}
+                      </Text>
+                    </FavoriteBox>
+                  );
+                })}
+              </WeatherRow>
+            )}
+          </MainView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 

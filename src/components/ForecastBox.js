@@ -45,5 +45,6 @@ export const MainView = styled.View`
 `;
 
 export const ForecastText = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
+  text-align:center;
 `;

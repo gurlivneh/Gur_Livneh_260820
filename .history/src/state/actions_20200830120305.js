@@ -109,10 +109,11 @@ export const removeFavorite = (favorite) => {
 };
 
 export const getAutoComplete = (text) => {
+  return (dispatch, getState) => {
     return new Promise((resolve) => {
       Requests.getAutoSearch(text).then((res) => {
         resolve(res);
       });
     });
-  
+  };
 };

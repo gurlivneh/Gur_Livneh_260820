@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react';
-import {SafeAreaView, ScrollView, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from '../state/actions';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const Favorites = (props) => {
+  const [height, setHeight] = useState(Dimensions.get('window').height);
+  const [width, setWidth] = useState(Dimensions.get('window').width);
   const dispatch = useDispatch();
   const favorites = useSelector(
     (state) => state.reducer.favorites,
@@ -16,39 +18,47 @@ const Favorites = (props) => {
   };
   useEffect(() => {
     AsyncStorage.getItem('favorites').then((res) => {
-      console.log('async res', JSON.parse(res));
       dispatch(Actions.setFavorites(JSON.parse(res)));
     });
+    const handleChange = () => {
+      setWidth(Dimensions.get('window').width);
+      setHeight(Dimensions.get('window').height);
+    };
+    Dimensions.addEventListener('change', handleChange);
+
+    return () => {
+      Dimensions.removeEventListener('change', handleChange);
+    };
   }, []);
 
   return (
     <>
       <SafeAreaView>
-        <ScrollView>
-          <MainView>
-            {favorites && (
-              <WeatherRow>
-                {favorites.map((item, i) => {
-                  return (
-                    <FavoriteBox
-                      key={i}
-                      onPress={() => {
-                        selectCity(item.locationKey, item.city);
-                        props.handleNav('Home');
-                      }}>
-                      <Text>{item.city}</Text>
-                      <Text>{item.currentWeather.WeatherText}</Text>
-                      <Text>
-                        {item.currentWeather.Temperature.Imperial.Value +
-                          item.currentWeather.Temperature.Imperial.Unit}
-                      </Text>
-                    </FavoriteBox>
-                  );
-                })}
-              </WeatherRow>
-            )}
-          </MainView>
-        </ScrollView>
+        <MainView height={height} width={width}>
+          {favorites && (
+            <WeatherRow>
+              {favorites.map((item, i) => {
+                return (
+                  <FavoriteBox
+                    height={height}
+                    width={width}
+                    key={i}
+                    onPress={() => {
+                      selectCity(item.locationKey, item.city);
+                      props.handleNav('Home');
+                    }}>
+                    <Text>{item.city}</Text>
+                    <Text>{item.currentWeather.WeatherText}</Text>
+                    <Text>
+                      {item.currentWeather.Temperature.Imperial.Value +
+                        item.currentWeather.Temperature.Imperial.Unit}
+                    </Text>
+                  </FavoriteBox>
+                );
+              })}
+            </WeatherRow>
+          )}
+        </MainView>
       </SafeAreaView>
     </>
   );
@@ -56,31 +66,29 @@ const Favorites = (props) => {
 
 export default Favorites;
 
-export const MainView = styled.View`
-  align-items: center;
-  display: flex;
+const MainView = styled.View`
   background-color: whitesmoke;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
 `;
 
-export const WeatherRow = styled.View`
+const WeatherRow = styled.View`
   width: 100%;
-  height: auto;
-  min-height: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   display: flex;
+  align-items: center;
   flex-direction: row;
-  padding: 5px;
   flex-wrap: wrap;
 `;
 
-export const FavoriteBox = styled.TouchableOpacity`
-  width: 120px;
-  height: 120px;
+const FavoriteBox = styled.TouchableOpacity`
+  width: ${(props) => (props.width > props.height ? 90 : 120)}px;
+  height: ${(props) => (props.width > props.height ? 90 : 120)}px;
   justify-content: center;
   align-items: center;
   background-color: lightseagreen;
   display: flex;
   margin-bottom: 5px;
   border-radius: 20px;
-  /* elevation:7; */
+  elevation: 7;
 `;

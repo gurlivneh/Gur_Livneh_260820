@@ -63,14 +63,14 @@ export const sendCitySelection = (locationKey, city) => {
       dispatch(setLocationKey(locationKey));
       Requests.getBylocationKey(locationKey).then((res) => {
         if (res.Code) {
-          dispatch(setError(res.Message));
+           dispatch(setError(res.Message));
         } else {
           dispatch(currentWeather(res[0]));
         }
       });
       Requests.getForecastBylocationKey(locationKey).then((res) => {
         if (res.Code) {
-          dispatch(setError(res.Message));
+           dispatch(setError(res.Message));
         } else {
           dispatch(forecast(res));
         }

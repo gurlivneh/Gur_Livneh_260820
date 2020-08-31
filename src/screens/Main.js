@@ -4,7 +4,6 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  Modal,
 } from 'react-native';
 import styled from 'styled-components/native';
 import * as Actions from '../state/actions';
@@ -140,19 +139,7 @@ const Main = () => {
   return (
     <>
       <SafeAreaView>
-        <MainView>
-          <Modal visible={error ? true : false} transparent={true}>
-            <ModalView>
-              <ModalBox>
-                <ModalText onPress={() => dispatch(Actions.setError(null))}>
-                  X
-                </ModalText>
-                <ModalTitle>
-                  <ModalText>{error}</ModalText>
-                </ModalTitle>
-              </ModalBox>
-            </ModalView>
-          </Modal>
+        <MainView height={height} width={width}>
           <SearchView>
             <MyAutoComplete
               data={autoCompleteRes}
@@ -173,7 +160,8 @@ const Main = () => {
               )}
             />
           </SearchView>
-          {currentWeather && forecast && (
+          {(currentWeather && forecast)
+           &&
             <WeatherView>
               <FavoriteButton
                 onPress={handleFavoritesButton}
@@ -198,8 +186,23 @@ const Main = () => {
                   );
                 })}
               </WeatherRow>
-            </WeatherView>
-          )}
+            </WeatherView>}
+            {(!currentWeather || !forecast) &&
+            <ModalBox >
+              <ModalText onPress={() => {
+              dispatch(Actions.sendCitySelection(DEFUALT_LOCATION_KEY, DEFUALT_CITY))
+              dispatch(Actions.setError(null))}
+              }>X</ModalText>
+                {!error ? 
+                //add this since some devices does not show error
+                <ModalTitle>
+                  <ModalText>something went wrong</ModalText>
+                </ModalTitle>:
+                <ModalTitle>
+                  <ModalText>{error}</ModalText>
+                </ModalTitle>
+                }
+            </ModalBox>}
         </MainView>
       </SafeAreaView>
     </>
@@ -208,43 +211,38 @@ const Main = () => {
 
 export default Main;
 
-export const MainView = styled.View`
+ const MainView = styled.View`
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height:${props => props.height}px;
+  width:${props => props.width}px;
 `;
-export const ModalBox = styled.View`
-  width: 80%;
+ const ModalBox = styled.View`
+  width: 90%;
   height: 40%;
   background-color: white;
   border-radius: 7px;
   display: flex;
   padding: 10px;
-  /* elevation: 10; */
+  elevation: 30;
+  margin-top:15px;
 `;
 
-export const ModalView = styled.View`
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 100%;
-`;
 
-export const ModalText = styled.Text`
-  font-size: 20px;
+ const ModalText = styled.Text`
+  font-size: 18px;
 `;
-
-export const ModalTitle = styled.View`
+ const ModalTitle = styled.View`
   font-size: 20px;
   width: 100%;
   height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding:10px;
 `;
-
-export const FavoriteButton = styled.TouchableOpacity`
+ const FavoriteButton = styled.TouchableOpacity`
   width: 50px;
   height: 30px;
   justify-content: center;
@@ -255,28 +253,24 @@ export const FavoriteButton = styled.TouchableOpacity`
   elevation: 5;
   margin-left: 5px;
 `;
-
-export const WeatherView = styled.View`
+ const WeatherView = styled.View`
   width: 100%;
   display: flex;
-  height: 75%;
+  height: 55%;
 `;
-
-export const WeatherRow = styled.View`
+ const WeatherRow = styled.View`
   width: 100%;
   height: 90%;
   display: flex;
   flex-direction: row;
   padding: 10px;
   flex-wrap: wrap;
-`;
-export const SearchView = styled.View`
+`; const SearchView = styled.View`
   width: 60%;
   flex-direction: row;
   padding: 10px;
   max-height: 20%;
-`;
-export const MyAutoComplete = styled(Autocomplete)`
+`; const MyAutoComplete = styled(Autocomplete)`
   height: 40px;
   justify-content: center;
   align-items: center;

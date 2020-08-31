@@ -1,6 +1,6 @@
 
 const BASE_URL = 'http://dataservice.accuweather.com/'
-const API_KEY = '?apikey=jtYJchNuz2UpXkPs8GPK8q5FnGL6aPOa'
+const API_KEY = '?apikey=y3EW3sGlR03ggW5jtP4K0WSVNeqzp7OM'
 const CURRENT = 'currentconditions/v1/'
 const FORECAST = 'forecasts/v1/daily/5day/'
 const CITY_AUTO_COMPLETE = 'locations/v1/cities/autocomplete'
@@ -10,15 +10,12 @@ import axios from "axios";
 const _request = (type, query) => {
 
   return new Promise((resolve, reject) => {
-   
-      console.log("test request", BASE_URL + type + API_KEY + query)
-      axios.get(BASE_URL + type + API_KEY + query).then(response => {
-          console.log('request response', response)
+         axios.get(BASE_URL + type + API_KEY + query).then(response => {
           resolve(response.data)
+
         })
         .catch(error => {
-          console.log('request error', error.response.data.Message)
-          resolve({Code:"error", Message:error.response.data.Message})
+            resolve({Code:"error", Message:error.response.data.Message})
 
         })
     

@@ -24,7 +24,7 @@ const NavBar = (props) => {
 
 export default NavBar;
 
-export const MainView = styled.View`
+ const MainView = styled.View`
   width: 100%;
   height: 80px;
   align-items: center;
@@ -34,7 +34,7 @@ export const MainView = styled.View`
   background-color: white;
 `;
 
-export const ButtonsView = styled.View`
+ const ButtonsView = styled.View`
   width: 200px;
   height: 100%;
   align-items: center;
@@ -45,7 +45,7 @@ export const ButtonsView = styled.View`
   padding: 5px;
 `;
 
-export const ButtonText = styled.Text`
+ const ButtonText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${(props) => (props.selected ? '#1da1f2' : 'lightblue')};

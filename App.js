@@ -8,22 +8,35 @@ import {Provider} from 'react-redux';
 import store from './src/state/store';
 
 const App = () => {
+  const [height, setHeight] = useState(Dimensions.get('window').height);
+  const [width, setWidth] = useState(Dimensions.get('window').width);
   const [page, setPage] = useState('Home');
   const handleNav = (item) => {
     setPage(item);
   };
 
+  useEffect(() => {
+
+    const handleChange = () => {
+      setWidth(Dimensions.get('window').width);
+      setHeight(Dimensions.get('window').height);
+    };
+    Dimensions.addEventListener('change', handleChange);
+
+    return () => {
+      Dimensions.removeEventListener('change', handleChange);
+    };
+  }, []);
+
   return (
     <>
       <SafeAreaView>
-        <ScrollView>
           <Provider store={store}>
-            <MainView>
+            <MainView height={height} width={width}>
               <NavBar handleNav={handleNav} page={page} />
               {page === 'Home' ? <Main /> : <Favorites handleNav={handleNav} />}
             </MainView>
           </Provider>
-        </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -32,8 +45,8 @@ const App = () => {
 export default App;
 
 const MainView = styled.View`
-  width: 100%;
-  min-height: 100%;
+  height:${props => props.height}px;
+  width:${props => props.width}px;
   background-color: whitesmoke;
   display: flex;
 `;

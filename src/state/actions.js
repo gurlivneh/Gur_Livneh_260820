@@ -88,8 +88,14 @@ export const addFavorite = (favorite) => {
     }
     newfavorites.push(favorite);
     dispatch(setFavorites(newfavorites));
-    const jsonValue = JSON.stringify(newfavorites);
-    AsyncStorage.setItem('favorites', jsonValue);
+    try {
+      const jsonValue = JSON.stringify(newfavorites);
+     AsyncStorage.setItem('favorites', jsonValue);
+    
+    } catch (e) {
+      alert('Failed to get the data')
+    }
+    
   };
 };
 

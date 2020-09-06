@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, Dimensions} from 'react-native';
+import {SafeAreaView, Text, Dimensions, ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from '../state/actions';
@@ -17,9 +17,13 @@ const Favorites = (props) => {
     dispatch(Actions.sendCitySelection(locationKey, city));
   };
   useEffect(() => {
-    AsyncStorage.getItem('favorites').then((res) => {
-      dispatch(Actions.setFavorites(JSON.parse(res)));
-    });
+    try {
+      AsyncStorage.getItem('favorites').then((res) => {
+        dispatch(Actions.setFavorites(JSON.parse(res)));
+      });
+    } catch (e) {
+      alert('Failed to get the data');
+    }
     const handleChange = () => {
       setWidth(Dimensions.get('window').width);
       setHeight(Dimensions.get('window').height);
@@ -33,33 +37,35 @@ const Favorites = (props) => {
 
   return (
     <>
-      <SafeAreaView>
-        <MainView height={height} width={width}>
-          {favorites && (
-            <WeatherRow>
-              {favorites.map((item, i) => {
-                return (
-                  <FavoriteBox
-                    height={height}
-                    width={width}
-                    key={i}
-                    onPress={() => {
-                      selectCity(item.locationKey, item.city);
-                      props.handleNav('Home');
-                    }}>
-                    <Text>{item.city}</Text>
-                    <Text>{item.currentWeather.WeatherText}</Text>
-                    <Text>
-                      {item.currentWeather.Temperature.Imperial.Value +
-                        item.currentWeather.Temperature.Imperial.Unit}
-                    </Text>
-                  </FavoriteBox>
-                );
-              })}
-            </WeatherRow>
-          )}
-        </MainView>
-      </SafeAreaView>
+      <ScrollView>
+        <SafeAreaView>
+          <MainView height={height} width={width}>
+            {favorites && (
+              <WeatherRow>
+                {favorites.map((item, i) => {
+                  return (
+                    <FavoriteBox
+                      height={height}
+                      width={width}
+                      key={i}
+                      onPress={() => {
+                        selectCity(item.locationKey, item.city);
+                        props.handleNav('Home');
+                      }}>
+                      <Text>{item.city}</Text>
+                      <Text>{item.currentWeather.WeatherText}</Text>
+                      <Text>
+                        {item.currentWeather.Temperature.Imperial.Value +
+                          item.currentWeather.Temperature.Imperial.Unit}
+                      </Text>
+                    </FavoriteBox>
+                  );
+                })}
+              </WeatherRow>
+            )}
+          </MainView>
+        </SafeAreaView>
+      </ScrollView>
     </>
   );
 };
@@ -74,7 +80,7 @@ const MainView = styled.View`
 
 const WeatherRow = styled.View`
   width: 100%;
-  justify-content: space-evenly;
+  /* justify-content: space-around; */
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -82,13 +88,15 @@ const WeatherRow = styled.View`
 `;
 
 const FavoriteBox = styled.TouchableOpacity`
-  width: ${(props) => (props.width > props.height ? 90 : 120)}px;
-  height: ${(props) => (props.width > props.height ? 90 : 120)}px;
+  min-width: ${(props) => (props.width > props.height ? 80 : 100)}px;
+  width:auto;
+  height: ${(props) => (props.width > props.height ? 80 : 100)}px;
   justify-content: center;
   align-items: center;
   background-color: lightseagreen;
   display: flex;
-  margin-bottom: 5px;
+  margin: 5px;
   border-radius: 20px;
   elevation: 7;
+  padding:5px;
 `;

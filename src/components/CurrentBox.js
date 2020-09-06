@@ -19,8 +19,8 @@ const CurrentBox = (props) => {
 export default CurrentBox;
 
  const MainView = styled.View`
-  width: ${(props) => (props.width > props.height ? 18 : 95)}%;
-  height: ${(props) => (props.width > props.height ? 55 : 50)}%;
+  width: ${(props) => (props.width > props.height ? 15 : 95)}%;
+  height: ${(props) => (props.width > props.height ? 50 : 50)}%;
   justify-content: center;
   align-items: center;
   background-color: #1da1f2;
@@ -30,5 +30,5 @@ export default CurrentBox;
 `;
 
  const CurrentText = styled.Text`
-  font-size: 24px;
+  font-size: 18px;
 `;

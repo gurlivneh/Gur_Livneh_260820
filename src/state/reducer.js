@@ -1,9 +1,11 @@
+const DEFUALT_LOCATION_KEY = '215854';
+const DEFUALT_CITY = 'Tel Aviv';
 const defaultState = {
   favorites: [],
   currentWeather: null,
   forecast: null,
-  city: null,
-  locationKey: null,
+  city: DEFUALT_CITY,
+  locationKey: DEFUALT_LOCATION_KEY,
   error:null
 };
 

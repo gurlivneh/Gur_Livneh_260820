@@ -22,7 +22,7 @@ export default ForecastBox;
 
  const MainView = styled.View`
   width: ${props => props.width > props.height ? 15 : 30}%;
-  height: ${props => props.width > props.height ? 40 : 30}%;
+  height: ${props => props.width > props.height ? 40 : 25}%;
   justify-content: center;
   align-items: center;
   background-color: lightseagreen;
@@ -33,6 +33,6 @@ export default ForecastBox;
 `;
 
  const ForecastText = styled.Text`
-  font-size: 14px;
+  font-size: 12px;
   text-align:center;
 `;

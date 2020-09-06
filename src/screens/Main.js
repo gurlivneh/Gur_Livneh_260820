@@ -13,9 +13,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import ForecastBox from '../components/ForecastBox';
 import CurrentBox from '../components/CurrentBox';
+
 const isMock = false;
-const DEFUALT_LOCATION_KEY = '215854';
-const DEFUALT_CITY = 'Tel Aviv';
 const Main = () => {
   const [keyword, setKeyword] = useState();
   const [autoCompleteRes, setAutoCompleteRes] = useState([]);
@@ -109,12 +108,15 @@ const Main = () => {
   };
 
   useEffect(() => {
-    if (!currentWeather || !forecast) {
-      dispatch(Actions.sendCitySelection(DEFUALT_LOCATION_KEY, DEFUALT_CITY));
+    dispatch(Actions.sendCitySelection(locationKey, city));
+    try {
+      AsyncStorage.getItem('favorites').then((res) => {
+        dispatch(Actions.setFavorites(JSON.parse(res)));
+      });
+    } catch (e) {
+      alert('Failed to get the data');
     }
-    AsyncStorage.getItem('favorites').then((res) => {
-      dispatch(Actions.setFavorites(JSON.parse(res)));
-    });
+
     const handleChange = () => {
       setWidth(Dimensions.get('window').width);
       setHeight(Dimensions.get('window').height);
@@ -160,8 +162,7 @@ const Main = () => {
               )}
             />
           </SearchView>
-          {(currentWeather && forecast)
-           &&
+          {currentWeather && forecast && (
             <WeatherView>
               <FavoriteButton
                 onPress={handleFavoritesButton}
@@ -175,34 +176,32 @@ const Main = () => {
                   city={city}
                   currentWeather={currentWeather}
                 />
-                {forecast.DailyForecasts.map((item, i) => {
-                  return (
-                    <ForecastBox
-                      key={i}
-                      item={item}
-                      height={height}
-                      width={width}
-                    />
-                  );
-                })}
+                  {forecast.DailyForecasts.map((item, i) => {
+                    return (
+                      <ForecastBox
+                        key={i}
+                        item={item}
+                        height={height}
+                        width={width}
+                      />
+                    );
+                  })}
               </WeatherRow>
-            </WeatherView>}
-            {(!currentWeather || !forecast) &&
-            <ModalBox >
-              <ModalText onPress={() => {
-              dispatch(Actions.sendCitySelection(DEFUALT_LOCATION_KEY, DEFUALT_CITY))
-              dispatch(Actions.setError(null))}
-              }>X</ModalText>
-                {!error ? 
-                //add this since some devices does not show error
+            </WeatherView>
+          )}
+          {(!currentWeather || !forecast) && (
+            <ModalBox>
+              {!error ? (
                 <ModalTitle>
-                  <ModalText>something went wrong</ModalText>
-                </ModalTitle>:
+                  <ModalText>loading...</ModalText>
+                </ModalTitle>
+              ) : (
                 <ModalTitle>
                   <ModalText>{error}</ModalText>
                 </ModalTitle>
-                }
-            </ModalBox>}
+              )}
+            </ModalBox>
+          )}
         </MainView>
       </SafeAreaView>
     </>
@@ -211,14 +210,14 @@ const Main = () => {
 
 export default Main;
 
- const MainView = styled.View`
+const MainView = styled.View`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height:${props => props.height}px;
-  width:${props => props.width}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
 `;
- const ModalBox = styled.View`
+const ModalBox = styled.View`
   width: 90%;
   height: 40%;
   background-color: white;
@@ -226,23 +225,22 @@ export default Main;
   display: flex;
   padding: 10px;
   elevation: 30;
-  margin-top:15px;
+  margin-top: 15px;
 `;
 
-
- const ModalText = styled.Text`
+const ModalText = styled.Text`
   font-size: 18px;
 `;
- const ModalTitle = styled.View`
+const ModalTitle = styled.View`
   font-size: 20px;
   width: 100%;
   height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:10px;
+  padding: 10px;
 `;
- const FavoriteButton = styled.TouchableOpacity`
+const FavoriteButton = styled.TouchableOpacity`
   width: 50px;
   height: 30px;
   justify-content: center;
@@ -253,24 +251,26 @@ export default Main;
   elevation: 5;
   margin-left: 5px;
 `;
- const WeatherView = styled.View`
+const WeatherView = styled.View`
   width: 100%;
   display: flex;
   height: 55%;
 `;
- const WeatherRow = styled.View`
+const WeatherRow = styled.View`
   width: 100%;
   height: 90%;
   display: flex;
   flex-direction: row;
   padding: 10px;
   flex-wrap: wrap;
-`; const SearchView = styled.View`
+`;
+const SearchView = styled.View`
   width: 60%;
   flex-direction: row;
   padding: 10px;
   max-height: 20%;
-`; const MyAutoComplete = styled(Autocomplete)`
+`;
+const MyAutoComplete = styled(Autocomplete)`
   height: 40px;
   justify-content: center;
   align-items: center;

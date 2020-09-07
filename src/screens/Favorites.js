@@ -37,9 +37,9 @@ const Favorites = (props) => {
 
   return (
     <>
-      <ScrollView>
-        <SafeAreaView>
-          <MainView height={height} width={width}>
+      <SafeAreaView>
+        <MainView height={height} width={width}>
+          <ScrollView>
             {favorites && (
               <WeatherRow>
                 {favorites.map((item, i) => {
@@ -63,9 +63,9 @@ const Favorites = (props) => {
                 })}
               </WeatherRow>
             )}
-          </MainView>
-        </SafeAreaView>
-      </ScrollView>
+          </ScrollView>
+        </MainView>
+      </SafeAreaView>
     </>
   );
 };
@@ -76,11 +76,11 @@ const MainView = styled.View`
   background-color: whitesmoke;
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
+  padding-bottom: 150px;
 `;
 
 const WeatherRow = styled.View`
   width: 100%;
-  /* justify-content: space-around; */
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -89,7 +89,7 @@ const WeatherRow = styled.View`
 
 const FavoriteBox = styled.TouchableOpacity`
   min-width: ${(props) => (props.width > props.height ? 80 : 100)}px;
-  width:auto;
+  width: auto;
   height: ${(props) => (props.width > props.height ? 80 : 100)}px;
   justify-content: center;
   align-items: center;
@@ -98,5 +98,5 @@ const FavoriteBox = styled.TouchableOpacity`
   margin: 5px;
   border-radius: 20px;
   elevation: 7;
-  padding:5px;
+  padding: 5px;
 `;

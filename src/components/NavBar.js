@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from '../state/actions';
 import { Switch } from 'react-native';
+import {useRoute} from '@react-navigation/native'
+
 
 
 const NavBar = (props) => {
@@ -15,7 +17,7 @@ const NavBar = (props) => {
     (state) => state.reducer.isDark,
     () => {},
   );
-
+  const route = useRoute();
 
   return (
     <>
@@ -23,7 +25,7 @@ const NavBar = (props) => {
         <ButtonsView>
           <ButtonText
             onPress={() => props.navigation.navigate('Main')}
-            selected={true}
+            selected={route.name === 'Main'}
             isDark={isDark}>
             Home
           </ButtonText>
@@ -31,7 +33,7 @@ const NavBar = (props) => {
             onPress={() => {
               props.navigation.navigate('Favorites');
             }}
-            selected={true}
+            selected={route.name === 'Favorites'}
             isDark={isDark}>
             Favorites
           </ButtonText>
@@ -68,7 +70,6 @@ export default NavBar;
 const MainView = styled.View`
   width: 100%;
   height: ${(props) => (props.isLandscape ? 60 : 70)}px;
-  /* align-items: center; */
   justify-content: space-between;
   display: flex;
   flex-direction: row;
@@ -76,7 +77,7 @@ const MainView = styled.View`
 `;
 
 const ButtonsView = styled.TouchableOpacity`
-  width: 200px;
+  width: 40%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -85,9 +86,10 @@ const ButtonsView = styled.TouchableOpacity`
 `;
 
 const ButtonText = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: ${(props) => (props.isDark ? 'white' : '#81b0ff')};
+  opacity:${(props) => (props.selected ? '1' : '0.6')};
 `;
 
 const SwitchView = styled.View`
@@ -100,17 +102,17 @@ const SwitchView = styled.View`
 `;
 
 const DarkSwitchView = styled.View`
-  width: 10%;
+  width: 30%;
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
 `;
 
 const SwitchTitle = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
   color: ${(props) => (props.isDark ? 'white' : '#81b0ff')};
-
   font-weight: bold;
 `;

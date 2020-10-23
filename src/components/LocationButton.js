@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import * as Actions from '../state/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as Images from '../images/index';
-
 
 const LocationButton = (props) => {
   const dispatch = useDispatch();
@@ -15,15 +14,15 @@ const LocationButton = (props) => {
 
   return (
     <Box isLandscape={isLandscape}>
-    <Button
-      onPress={() => {dispatch(Actions.setUseGeoposition(useGeoposition ? false : true))}}>
-      <Logo
-        source={
-          useGeoposition ? Images.LOCATION_ON : Images.LOCATION_OFF
-        }
-      />
-    </Button>
-  </Box>
+      <Button
+        onPress={() => {
+          dispatch(Actions.setUseGeoposition(useGeoposition ? false : true));
+        }}>
+        <Logo
+          source={useGeoposition ? Images.LOCATION_ON : Images.LOCATION_OFF}
+        />
+      </Button>
+    </Box>
   );
 };
 
@@ -35,6 +34,7 @@ const Box = styled.View`
   display: flex;
   justify-content: ${(props) =>
     props.isLandscape ? 'flex-start' : 'flex-end'};
+  align-items: center;
 `;
 
 const Logo = styled.Image`

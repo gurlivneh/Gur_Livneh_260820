@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components/native';
 import * as Actions from '../state/actions';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Images from '../images/index';
+
 
 const FavoritesBox = (props) => {
   const dispatch = useDispatch();
@@ -51,13 +53,13 @@ const FavoritesBox = (props) => {
       {favoriteCurrentWeather && (
         <Logo
           source={{
-            uri: `https://developer.accuweather.com/sites/default/files/${
+            uri: `${
               favoriteCurrentWeather.WeatherIcon < 10
-                ? '0' + favoriteCurrentWeather.WeatherIcon
-                : favoriteCurrentWeather.WeatherIcon
+                ? Images.BASE_URL + '0' + favoriteCurrentWeather.WeatherIcon
+                : Images.BASE_URL + favoriteCurrentWeather.WeatherIcon
             }-s.png`,
           }}
-          style={{width: props.width * 0.3, height: props.width * 0.3}}
+          style={{width: 75, height: 45}}
         />
       )}
     </MainView>

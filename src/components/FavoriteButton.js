@@ -57,7 +57,9 @@ const Box = styled.View`
   height: 100%;
   display: flex;
   justify-content: ${(props) =>
-    props.isLandscape ? 'flex-start' : 'flex-end'};
+  props.isLandscape ? 'flex-start' : 'flex-end'};
+    align-items:center;
+
 `;
 
 const Logo = styled.Image`

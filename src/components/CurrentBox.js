@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Images from '../images/index';
+
 
 
 
@@ -21,6 +23,7 @@ const CurrentBox = (props) => {
       height={props.height}
       width={props.width}
       isDark={isDark}
+      isLandscape={props.isLandscape}
     >
         <CurrentText  isDark={isDark}>{props.city}</CurrentText>
         <CurrentText  isDark={isDark}>{props.currentWeather.WeatherText}</CurrentText>
@@ -28,8 +31,8 @@ const CurrentBox = (props) => {
           {temperature}
         </CurrentText>
       <Logo
-        source={{ uri: `https://developer.accuweather.com/sites/default/files/${weatherIcon}-s.png` }}
-        style={{width:  props.width*0.25, height:  props.width*0.25}}
+        source={{ uri: `${Images.BASE_URL + weatherIcon}-s.png` }}
+        style={{width: 75, height:  45}}
 			/>
       </MainView>
   );
@@ -46,12 +49,14 @@ export default CurrentBox;
   display: flex;
   elevation: 5;
   border-radius: 7px;
-  margin:10px;
-  padding:10px;
+  margin-left: ${(props) => (props.isLandscape ? 10 : 0)}px;
+
+  
 `;
 
  const CurrentText = styled.Text`
   font-size: 16px;
+
   text-align:center;
   color: ${(props) => (props.isDark ?  "white" : "black" )};
 `;

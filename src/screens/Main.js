@@ -17,6 +17,7 @@ import NavBar from '../components/NavBar';
 import FavoriteButton from '../components/FavoriteButton';
 import LocationButton from '../components/LocationButton';
 
+
 const DEFUALT_LOCATION_KEY = '215854';
 const DEFUALT_CITY = 'Tel Aviv';
 
@@ -103,10 +104,11 @@ const Main = ({navigation}) => {
           {currentWeather && forecast && !error && (
             <WeatherColumn isLandscape={isLandscape}>
               <CurrentBox
-                height={isLandscape ? height * 0.5 : height * 0.48}
-                width={isLandscape ? width * 0.25 : width * 0.9}
+                height={isLandscape ? height * 0.49 : height * 0.25}
+                width={isLandscape ? width * 0.23 : width * 0.85}
                 city={city}
                 currentWeather={currentWeather}
+                isLandscape={isLandscape}
               />
               <ScrollView>
                 <WeatherRow
@@ -118,8 +120,8 @@ const Main = ({navigation}) => {
                       <ForecastBox
                         key={i}
                         item={item}
-                        height={isLandscape ? height * 0.49 : height * 0.28}
-                        width={isLandscape ? width * 0.2 : width * 0.4}
+                        height={isLandscape ? height * 0.48 : height * 0.3}
+                        width={isLandscape ? width * 0.2 : width * 0.40}
                         isLandscape={isLandscape}
                       />
                     );
@@ -147,12 +149,13 @@ const MainView = styled.View`
   height: ${(props) => props.height}px;
   width: ${(props) => props.width}px;
   background-color: ${(props) => (props.isDark ? 'lightgrey' : 'whitesmoke')};
+  
 `;
 
 const WeatherRow = styled.View`
   width: 100%;
   min-height: ${(props) =>
-    props.isLandscape ? props.height * 0.75 : props.height * 0.35}px;
+    props.isLandscape ? props.height * 0.76 : props.height * 0.35}px;
   height: auto;
   display: flex;
   flex-direction: row;
@@ -160,8 +163,8 @@ const WeatherRow = styled.View`
     props.isLandscape ? 'space-evenly' : 'space-evenly'};
   align-items: ${(props) => (props.isLandscape ? 'center' : 'center')};
   flex-wrap: wrap;
-  margin-bottom: 10px;
-  margin-top: ${(props) => (props.isLandscape ? 0 : 10)}px;
+  margin-top: ${(props) => (props.isLandscape ? 5 : 10)}px;
+  
 `;
 
 const WeatherColumn = styled.View`
@@ -171,14 +174,13 @@ const WeatherColumn = styled.View`
   flex-direction: ${(props) => (props.isLandscape ? 'row' : 'column')};
   justify-content: center;
   align-items: center;
-  /* background-color:red; */
+
 `;
 
 const UpperView = styled.View`
   width: 95%;
   flex-direction: row;
   height: ${(props) => (props.isLandscape ? 23 : 20)}%;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  /* background-color:blue; */
 `;

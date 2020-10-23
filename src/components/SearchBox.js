@@ -22,7 +22,6 @@ const SearchBox = (props) => {
   };
 
   const handleTextChange = (text) => {
-    console.log('auto complete res', autoCompleteRes, 'text to send', text);
     setKeyword(text);
     if (isMock) {
       if (text.length > 0) {

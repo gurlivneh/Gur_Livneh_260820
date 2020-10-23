@@ -85,12 +85,14 @@ export const checkIsFavorite = (locationKey) => {
   return (dispatch, getState) => {
     const {reducer} = getState();
     dispatch(setIsFavorite(false));
-    reducer.favorites.forEach((item) => {
-      if (item.locationKey === locationKey) {
-        dispatch(setIsFavorite(true));
-        return;
-      }
-    });
+    if (reducer.favorites) {
+      reducer.favorites.forEach((item) => {
+        if (item.locationKey === locationKey) {
+          dispatch(setIsFavorite(true));
+          return;
+        }
+      });
+    }
   };
 };
 

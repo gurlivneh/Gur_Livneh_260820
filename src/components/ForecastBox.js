@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
+import * as Images from '../images/index';
 
 const ForecastBox = (props) => {
   const isCelsius = useSelector(
@@ -39,7 +40,7 @@ const ForecastBox = (props) => {
           source={{
             uri: `https://developer.accuweather.com/sites/default/files/${weatherDayIcon}-s.png`,
           }}
-          style={{width: props.width * 0.3, height: props.width * 0.3}}
+          style={{width: 75, height: 45}}
         />
         <ForecastText isDark={isDark}>{temperatureMin}</ForecastText>
         <ForecastText isDark={isDark}>
@@ -49,7 +50,7 @@ const ForecastBox = (props) => {
           source={{
             uri: `https://developer.accuweather.com/sites/default/files/${weatherNightIcon}-s.png`,
           }}
-          style={{width: props.width * 0.3, height: props.width * 0.3}}
+          style={{width:75, height: 45}}
         />
       </MainView>
     </>
@@ -66,10 +67,11 @@ const MainView = styled.View`
   justify-content: center;
   background-color: ${(props) => (props.isDark ? 'grey' : 'white')};
   display: flex;
-  padding: 10px;
   border-radius: 10px;
   elevation: 5;
-  margin-bottom: 20px;
+  margin-bottom: ${(props) => (props.isLandscape ? 15 : 10)}px;
+  margin-top: ${(props) => (props.isLandscape ? 0 : 10)}px;
+
 `;
 
 const ForecastText = styled.Text`

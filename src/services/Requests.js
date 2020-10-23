@@ -1,6 +1,6 @@
 const BASE_URL = 'https://dataservice.accuweather.com/'
-const API_KEY = '?apikey=jtYJchNuz2UpXkPs8GPK8q5FnGL6aPOa'
-//const API_KEY = '?apikey=y3EW3sGlR03ggW5jtP4K0WSVNeqzp7OM'
+// const API_KEY = '?apikey=jtYJchNuz2UpXkPs8GPK8q5FnGL6aPOa'
+const API_KEY = '?apikey=y3EW3sGlR03ggW5jtP4K0WSVNeqzp7OM'
 const CURRENT = 'currentconditions/v1/'
 const FORECAST = 'forecasts/v1/daily/5day/'
 const CITY_AUTO_COMPLETE = 'locations/v1/cities/autocomplete'

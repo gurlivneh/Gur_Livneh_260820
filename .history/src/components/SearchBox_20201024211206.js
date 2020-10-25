@@ -49,7 +49,7 @@ const SearchBox = (props) => {
           data={autoCompleteRes}
           defaultValue={keyword}
           placeholder="city"
-          listContainerStyle={{height: props.isLandscape ? 50 : 50}}
+          listContainerStyle={{height: props.isLandscape ? 50 : 70}}
           onChangeText={(text) => handleTextChange(text)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (

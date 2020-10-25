@@ -11,7 +11,10 @@ const SearchBox = (props) => {
   const [keyword, setKeyword] = useState();
   const [autoCompleteRes, setAutoCompleteRes] = useState([]);
   const dispatch = useDispatch();
-
+  const isDark = useSelector(
+    (state) => state.reducer.isDark,
+    () => {},
+  );
   const selectCity = (key, city) => {
     dispatch(Actions.sendCitySelection(key, city));
     setAutoCompleteRes([]);
@@ -19,6 +22,7 @@ const SearchBox = (props) => {
   };
 
   const handleTextChange = (text) => {
+    console.log('auto complete res', autoCompleteRes, 'text to send', text);
     setKeyword(text);
     if (isMock) {
       if (text.length > 0) {
@@ -49,7 +53,7 @@ const SearchBox = (props) => {
           data={autoCompleteRes}
           defaultValue={keyword}
           placeholder="city"
-          listContainerStyle={{height: props.isLandscape ? 50 : 50}}
+          listContainerStyle={{height: props.isLandscape ? 50 : 70}}
           onChangeText={(text) => handleTextChange(text)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
